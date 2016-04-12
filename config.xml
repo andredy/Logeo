@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Practica Camara</name>
+    <name> aplicacion alumnos</name>
     <description>
-        Manejo de parametros de captura de camara
+       registro de alumnos, actualizacion y eliminacion
     </description>
-    <author email="i.s.c.alejandro.gr@gmail.com" href="http://www.itslibres.edu.mx/">
-        Ing. Alejandro Guzmán Rodríguez
+    <author email="talento_sadico@outlook.com" href="http://www.facebook.com/">
+        Ing. Andres Vazquez Garcia
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
