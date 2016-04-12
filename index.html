@@ -1,0 +1,343 @@
+<!-DOCTYPE HTML-->
+<html>
+<head>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css" type="text/css"/>
+<link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" type="text/css"  />
+<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" type="text/css" />
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="js/jquery-2.2.0.min.js" ></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js" ></script>
+
+<script type="text/javascript">
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+	$("#btnEnviar").tap(function env(){
+
+		var nom=$("#txtnombre").val();
+		var aps=$("#txtApp").val();
+		var nc=$("#txtNcontrol").val();
+		var Edad=$("#txtEdad").val();
+		
+		if(nom==""|| aps=="" || nc=="" || Edad==""){
+			alert("Introduzca los datos requeridos en todos los campos");
+		}else{
+			//alert("Se enviaran los datos: Nombre: "+nom+" Apellidos:"+aps+" Número de Control:"+nc+" Edad:"+Edad);
+			$.ajax({
+				type:"POST",
+				url:"http://andresvagar.260mb.net/guardar.php",
+				data:"nomb="+nom+"&apps="+aps+"&numC="+nc+"&Ed="+Edad,
+				success: exitoso
+
+			});
+			
+			function exitoso(datos){
+				alert("Respuesta: "+datos);
+			}
+
+		}
+	});
+	
+$("#btnConsultar").tap(function consul(){
+	$.ajax({
+		type:"POST",
+		url:"http://andresvagar.260mb.net/consultar.php",
+		data:"",
+		success: function(datos){
+//			alert("Respuesta: "+datos);
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#datos");
+			contenedor.html('<table border="1" id="tb1"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			var fila=$("#tb1");
+			for(var i in reg){
+			fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+			}
+			fila.append('</table>');
+		}	
+	});
+
+});
+
+$("#btnConsultar2").tap(function consul(){
+	$.ajax({
+		type:"POST",
+		url:"http://andresvagar.260mb.net/consultar.php",
+		data:"",
+		success: function(datos){
+//			alert("Respuesta: "+datos);
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#datos2");
+			contenedor.html('<table border="1" id="tb3"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			var fila=$("#tb3");
+			for(var i in reg){
+			fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+
+			}
+			fila.append('</table>');
+		}	
+	});
+
+});
+$("#btnConsultar3").tap(function consul(){
+	$.ajax({
+		type:"POST",
+		url:"http://andresvagar.260mb.net/consultar.php",
+		data:"",
+		success: function(datos){
+//			alert("Respuesta: "+datos);
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#datos3");
+			contenedor.html('<table border="1" id="tb5"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			var fila=$("#tb5");
+			for(var i in reg){
+			fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+
+			}
+			fila.append('</table>');
+		}	
+	});
+
+});
+
+$("#btnBuscar").tap(function busq(){
+	var nombre=$("#busNombre").val();
+	$.ajax({
+		type:"POST",url:"http://andresvagar.260mb.net/buscar.php",
+		data:"Nombre="+nombre,
+		success: function(datos){
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#resBusqueda");
+			contenedor.html('<table border="1" id="tb2"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			var fila=$("#tb2");
+			for(var i in reg){
+			fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+
+			}
+			fila.append('</table>');
+		}	
+	});
+});
+
+$("#btnBusqNC").tap(function busq(){
+	var nc=$("#txtNC").val();
+	$.ajax({
+		type:"POST",url:"http://andresvagar.260mb.net/buscarNC.php",
+		data:"NC="+nc,
+		success: function(datos){
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#resBusqNC");
+                        contenedor.html('<input type="text"  id="txtModid" disabled="true" style=" background:url(imagenes/tapis2.jpg);"><br>');
+                        contenedor.append('<input type="text" id="txtModNombre" style=" background:url(imagenes/tapis2.jpg);"><br>');
+                        contenedor.append('<input type="text" id="txtModApellidos" style=" background:url(imagenes/tapis2.jpg);"><br>');
+                        contenedor.append('<input type="text" id="txtModNumNC" disabled="true" style=" background:url(imagenes/tapis2.jpg);"><br>');
+                        contenedor.append('<input type="text" id="txtModEdad" style=" background:url(imagenes/tapis2.jpg);"><br>');
+                        var idMod=$("#txtModid");
+                        idMod.val(reg[0].IDAlumno)
+                        var NombMod=$("#txtModNombre");
+                        NombMod.val(reg[0].Nombre);
+                        var ApsMod=$("#txtModApellidos");
+                        ApsMod.val(reg[0].Apellidos);
+                        var NCMod=$("#txtModNumNC");
+                        NCMod.val(reg[0].NumeroControl);
+                        var EdadMod=$("#txtModEdad");
+                        EdadMod.val(reg[0].Edad);
+                        
+                       // $("#txtmodid").val(reg[0].IDAlumno);
+                        //$("#txtmodNombre").val(reg[0].Nombre);
+                       // $("#txtmodApellidos").val(reg[0].Apellidos);
+                        //$("#txtmodNumNC").val(reg[0].NumeroControl);
+                       // $("#txtmodEdad").val(reg[0].Edad);
+			//contenedor.html('<table border="1" id="tb4"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			//fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+			}
+			
+			
+	});
+});
+
+$("#btnActualizar").tap(function modif(){
+
+		var nombre=$("#txtModNombre").val();
+		var apell=$("#txtModApellidos").val();
+		var ed=$("#txtModEdad").val();
+                var nc=$("#txtModNumNC").val();
+		
+		if(nombre==""||apell=="" || ed==""){
+			alert("Introduzca los datos requeridos en todos los campos");
+		}else{
+			//alert("Se enviaran los datos: Nombre: "+nom+" Apellidos:"+aps+" Número de Control:"+nc+" Edad:"+Edad);
+			$.ajax({
+				type:"POST",
+				url:"http://andresvagar.260mb.net/Actualizar.php",
+				data:"Nombre="+nombre+"&App="+apell+"&NC="+nc+"&Edad="+ed,
+				success: function(datos){
+                                    alert("Respuesta: "+datos);
+                                }
+
+			});
+			
+			
+		}
+	});
+        
+   $("#btnBusqNC2").tap(function busq(){
+	var nc=$("#txtNC2").val();
+	$.ajax({
+		type:"POST",url:"http://andresvagar.260mb.net/buscarNC.php",
+		data:"NC="+nc,
+		success: function(datos){
+			var reg=$.parseJSON(datos);
+			var contenedor=$("#resBusqNC2");
+                        contenedor.html('<input type="text"  id="txtModid1" disabled="true" ><br>');
+                        contenedor.append('<input type="text" id="txtModNombre1" disabled="true" ><br>');
+                        contenedor.append('<input type="text" id="txtModApellidos1" disabled="true" ><br>');
+                        contenedor.append('<input type="text" id="txtModNumNC1" disabled="true" ><br>');
+                        contenedor.append('<input type="text" id="txtModEdad1" disabled="true" ><br>');
+                        var idMod1=$("#txtModid1");
+                        idMod1.val(reg[0].IDAlumno)
+                        var NombMod1=$("#txtModNombre1");
+                        NombMod1.val(reg[0].Nombre);
+                        var ApsMod1=$("#txtModApellidos1");
+                        ApsMod1.val(reg[0].Apellidos);
+                        var NCMod1=$("#txtModNumNC1");
+                        NCMod1.val(reg[0].NumeroControl);
+                        var EdadMod1=$("#txtModEdad1");
+                        EdadMod1.val(reg[0].Edad);
+                        
+                       // $("#txtmodid").val(reg[0].IDAlumno);
+                        //$("#txtmodNombre").val(reg[0].Nombre);
+                       // $("#txtmodApellidos").val(reg[0].Apellidos);
+                        //$("#txtmodNumNC").val(reg[0].NumeroControl);
+                       // $("#txtmodEdad").val(reg[0].Edad);
+			//contenedor.html('<table border="1" id="tb4"><th>IDAlumno</th><th>Nombre</th><th>Apellidos</th><th>NumeroControl</th><th>Edad</th>');
+			//fila.append('<tr><td>'+reg[i].IDAlumno+'</td><td>'+reg[i].Nombre+'</td><td>'+reg[i].Apellidos+'</td><td>'+reg[i].NumeroControl+'</td><td>'+reg[i].Edad+'</td></tr>');
+			}
+			
+			
+
+			
+			
+	});
+});
+
+$("#btnEliminar").tap(function modif(){
+
+		
+                var nc=$("#txtModNumNC1").val();
+		
+		
+			//alert("Se enviaran los datos: Nombre: "+nom+" Apellidos:"+aps+" Número de Control:"+nc+" Edad:"+Edad);
+			$.ajax({
+				type:"POST",
+				url:"http://andresvagar.260mb.net/Eliminar.php",
+				data:"&NC="+nc,
+				success: function(datos){
+                                    alert("Respuesta: "+datos);
+                                }
+
+			});
+			
+			
+		
+	});
+
+}
+</script>
+<style type="text/css">
+    
+#encabezado{
+text-align:center;
+font-size: 14px;
+color:red;
+font-weight:bold;
+}
+#pie{
+text-align:center;
+font-size:8px;
+color:green;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+<div data-role="page" id="principal" style=" background:url(img/tapis1.jpg);">
+	<div data-role="header">
+		<h1>Menú principal</h1>
+	</div>
+	<div data-role="content">				
+		<a href="#insertar" data-role="button" data-transition="flip">Registrar</a>
+		<a href="#consultar" data-role="button" data-transition="slideup">Consultar</a>
+		<a href="#modificar" data-role="button" data-transition="slideup">Modificar</a>                
+		<a href="#Eliminar" data-role="button" data-transition="flip">Eliminar</a>
+  	</div>
+	<div data-role="footer">
+     	   <p>Pie de la aplicación</p>
+	</div>
+</div>
+<div data-role="page" id="insertar" style=" background:url(img/tapis1.jpg);">
+	<div data-role="header">
+		<h1>Mi aplicación</h1>
+	</div>
+	<div data-role="content">		
+		<input type="text" value="" placeholder="Escribe tu nombre" id="txtnombre" />
+		<input type="text" value="" placeholder="Apellidos" id="txtApp" />
+		<input type="text" placeholder="Número de control" id="txtNcontrol" />
+		<input type="text" placeholder="Edad" id="txtEdad" />
+		<input type="button" value="Registrar" id="btnEnviar" />
+		
+  	</div>
+	<div data-role="footer">
+     	   <p>Pie de la aplicación</p>
+	</div>
+</div>
+<div data-role="page" id="consultar" style=" background:url(img/tapis1.jpg);">
+	<div data-role="header">
+		<h1>Consultar</h1>
+	</div>
+	<div data-role="content">				
+		<input type="button" value="Consultar todo" id="btnConsultar" />
+		<div id="datos"></div>	
+		<input type="text" placeholder="escribe un nombre" id="busNombre" />
+		<input type="button" value="Buscar" id="btnBuscar" />	
+		<div id="resBusqueda"></div>
+  	</div>
+	<div data-role="footer">
+     	   <p>Pie de la aplicación</p>
+	</div>
+</div>
+<div data-role="page" id="modificar" style=" background:url(img/tapis1.jpg);">
+	<div data-role="header">
+		<h1>Modificar</h1>
+	</div>
+	<div data-role="content">				
+		<input type="button" value="Consultar todo" id="btnConsultar2" />
+		<div id="datos2"></div>	
+		<input type="text" placeholder="escribe el numero de Control" id="txtNC"/>
+		<input type="button" value="Buscar" id="btnBusqNC" />	
+		<div id="resBusqNC"></div>
+               <input type="button" id="btnActualizar" value="Actualizar datos"/>
+               
+  	</div>
+	<div data-role="footer">
+     	   <p>Pie de la aplicación</p>
+	</div>
+</div>
+    <div data-role="page" id="Eliminar" style=" background:url(img/tapis1.jpg);">
+	<div data-role="header">
+		<h1>Eliminar</h1>
+	</div>
+	<div data-role="content">				
+		<input type="button" value="Consultar todo" id="btnConsultar3" />
+		<div id="datos3"></div>	
+		<input type="text" placeholder="escribe el numero de Control" id="txtNC2"/>
+		<input type="button" value="Buscar" id="btnBusqNC2" />	
+		<div id="resBusqNC2"></div>
+               <input type="button" id="btnEliminar" value="Eliminar dato"/>
+               
+  	</div>
+	<div data-role="footer">
+     	   <p>Pie de la aplicación</p>
+	</div>
+</div>
+</body>
+</html>
